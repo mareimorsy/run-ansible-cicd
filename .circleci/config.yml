@@ -17,6 +17,7 @@ jobs:
       - run:
           name: Configure server
           command: |
+            ls -l ~/.ssh
             ansible-playbook -i inventory.txt main.yml
 
 workflows:
