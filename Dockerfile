@@ -1,3 +1,13 @@
-FROM python:3.7-alpine3.11
+FROM amazon/aws-cli
 
-RUN pip3 install awscliv2
+# COPY aws /bin/aws
+
+# ENV PATH=~/.local/bin
+
+RUN /bin/yum update -y && \
+    /bin/yum install -y python3
+RUN /bin/python3 -m pip install --user ansible
+
+ENV PATH=~/.local/bin
+
+ENTRYPOINT [ "" ]
