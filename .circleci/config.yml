@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   server-configuration:
     docker:
-      - image: mareimorsy/cicd-hamada:v10
+      - image: mareimorsy/cicd-hamada:v11
 
     steps:
       - checkout

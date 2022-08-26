@@ -9,6 +9,6 @@ RUN /bin/yum update -y && \
 RUN /bin/python3 -m pip install --user ansible
 RUN /bin/yum install -y openssh-clients
 
-ENV PATH=~/.local/bin
+ENV PATH=$PATH:~/.local/bin:/bin
 
 ENTRYPOINT [ "" ]
