@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   server-configuration:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: mareimorsy/cicd-hamada:v1
 
     steps:
       - checkout
@@ -12,10 +12,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+
             apk add --update openssh-client ansible 
       - run:
           name: Configure server
           command: |
+            echo "[web]" > inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             ansible-playbook -i inventory.txt main.yml
 
   provsion-infrastructure:
@@ -32,8 +35,8 @@ jobs:
 workflows:
   welcome:
     jobs:
-      - provsion-infrastructure
-      # - server-configuration
+      # - provsion-infrastructure
+      - server-configuration
       # - anotherjob:
       #     requires: 
       #       - previousjob
