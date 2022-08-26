@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   server-configuration:
     docker:
-      - image: mareimorsy/cicd-hamada:v9
+      - image: mareimorsy/cicd-hamada:v10
 
     steps:
       - checkout
@@ -17,7 +17,6 @@ jobs:
           name: Configure server
           command: |
             echo "[web]" > inventory.txt
-            /bin/yum install -y openssh-clients
             /usr/local/bin/aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             ansible-playbook -i inventory.txt main.yml
 
