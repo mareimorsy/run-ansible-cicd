@@ -9,11 +9,10 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["54:03:09:2e:fd:b3:04:d1:99:84:99:a1:fd:4a:41:06"]
-      - run:
-          name: Install dependencies
-          command: |
-
-            apk add --update openssh-client ansible 
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --update openssh-client ansible 
       - run:
           name: Configure server
           command: |
