@@ -16,6 +16,7 @@ jobs:
       - run:
           name: Configure server
           command: |
+            /bin/yum –y install openssh-server openssh-clients
             echo "[web]" > inventory.txt
             /usr/local/bin/aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             ansible-playbook -i inventory.txt main.yml
