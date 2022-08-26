@@ -1,0 +1,30 @@
+- hosts: web
+  become: yes
+  tasks:
+    - name: "update the apt cache"
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: install nginx on ubuntu
+      apt:
+        name: ['nginx']
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: "update the yum cache"
+      yum:
+        update_cache: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: install nginx on centos
+      yum:
+        name: ['nginx']
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: start nginx on centos
+      service:
+        name: nginx
+        state: started
+        enabled: yes

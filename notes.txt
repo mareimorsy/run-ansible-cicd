@@ -1,0 +1,1 @@
+aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
