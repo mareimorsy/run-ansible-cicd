@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  test:
+  server-configuration:
     docker:
       - image: python:3.7-alpine3.11
 
@@ -18,10 +18,22 @@ jobs:
           command: |
             ansible-playbook -i inventory.txt main.yml
 
+  provsion-infrastructure:
+    docker:
+      - image: amazon/aws-cli
+
+    steps:
+      - checkout
+      - run:
+          name: Configure server
+          command: |
+            aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
+
 workflows:
   welcome:
     jobs:
-      - test
+      - provsion-infrastructure
+      # - server-configuration
       # - anotherjob:
       #     requires: 
       #       - previousjob
