@@ -19,7 +19,6 @@ jobs:
           name: Configure server
           command: |
             ls -l ~/.ssh
-            ssh-agent bash
             ssh-add ~/.ssh/id_rsa
             ansible-playbook -vvv -i inventory.txt main.yml
 
