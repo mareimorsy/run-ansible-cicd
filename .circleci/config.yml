@@ -19,7 +19,7 @@ jobs:
           name: Configure server
           command: |
             ls -l ~/.ssh
-            ssh-add ~/.ssh/id_rsa
+            ssh-add ~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
             ansible-playbook -vvv -i inventory.txt main.yml
 
 workflows:
