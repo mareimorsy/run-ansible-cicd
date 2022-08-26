@@ -18,10 +18,9 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ls -l ~/.ssh
-            # ssh-add ~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
-            chmod 400 ~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
-            ansible-playbook -vvv -i inventory.txt main.yml --key=~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
+            # ls -l ~/.ssh
+            # chmod 400 ~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
+            ansible-playbook -i inventory.txt main.yml --key=~/.ssh/id_rsa_5403092efdb304d1998499a1fd4a4106
 
 workflows:
   welcome:
