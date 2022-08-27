@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   server-configuration:
     docker:
-      - image: mareimorsy/cicd-hamada:v11
+      - image: python:3.7-alpine3.11
 
     steps:
       - checkout
