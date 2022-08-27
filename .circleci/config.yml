@@ -50,8 +50,10 @@ jobs:
 workflows:
   welcome:
     jobs:
-      # - provsion-infrastructure
-      - server-configuration
+      - provsion-infrastructure
+      - server-configuration:
+          requires: 
+            - provsion-infrastructure
       # - anotherjob:
       #     requires: 
       #       - previousjob
