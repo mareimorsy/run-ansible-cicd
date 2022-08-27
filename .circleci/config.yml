@@ -15,7 +15,7 @@ jobs:
             apk add gzip openssh-client openssh-server
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ./inventory.txt
+          at: ./
       - run:
           name: Install dependencies
           command: |
