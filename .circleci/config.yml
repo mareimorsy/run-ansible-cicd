@@ -30,13 +30,14 @@ jobs:
 
     steps:
       - checkout
+      # - run:
+      #     name: Configure server
+      #     command: |
+      #       aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
       - run:
           name: Configure server
           command: |
-            aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
-      - run:
-          name: Configure server
-          command: |
+            yum install -y tar gzip
             echo "[web]" > inventory.txt
             echo "hello" >> inventory.txt
       - persist_to_workspace:
