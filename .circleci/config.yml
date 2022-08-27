@@ -9,16 +9,20 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["54:03:09:2e:fd:b3:04:d1:99:84:99:a1:fd:4a:41:06"]
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ./inventory.txt
+      - run:
+          name: Install dependencies
+          command: |
+            cat inventory.txt
       # - run:
       #     name: Install dependencies
       #     command: |
       #       apk add --update openssh-client ansible 
-      - run:
-          name: Configure server
-          command: |
-            echo "[web]" > inventory.txt
-            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
-            ansible-playbook -i inventory.txt main.yml
+# 
+            # aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+            # ansible-playbook -i inventory.txt main.yml
 
   provsion-infrastructure:
     docker:
@@ -30,6 +34,18 @@ jobs:
           name: Configure server
           command: |
             aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
+      - run:
+          name: Configure server
+          command: |
+            echo "[web]" > inventory.txt
+            echo "hello" >> inventory.txt
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: ./
+          # Must be relative path from root
+          paths:
+            - inventory.txt
 
 workflows:
   welcome:
