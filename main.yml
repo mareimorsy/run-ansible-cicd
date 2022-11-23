@@ -1,16 +1,17 @@
-- hosts: web
+- hosts: all
   become: yes
-  user: ubuntu
+  remote_user: ubuntu
   tasks:
+    # - name: Execute the Uptime command over Command module
+    #   register: uptimeoutput
+    #   command: "uptime"
+
+    # - debug:
+    #     var: uptimeoutput.stdout_lines
+
     - name: "update the apt cache"
       apt:
         update_cache: yes
-      when: ansible_os_family == "Debian"
-
-    - name: install nginx on ubuntu
-      apt:
-        name: ['nginx']
-        state: latest
       when: ansible_os_family == "Debian"
 
     - name: "update the yum cache"
@@ -18,14 +19,21 @@
         update_cache: yes
       when: ansible_os_family == "RedHat"
 
-    - name: install nginx on centos
+    - name: "Install nginx on ubuntu"
+      apt:
+        name: ['nginx', 'nginx-common']
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: "Install nginx on centos"
       yum:
         name: ['nginx']
-        state: latest
+        state: present
       when: ansible_os_family == "RedHat"
 
-    - name: start nginx on centos
+    - name: "Enable nginx service"
       service:
         name: nginx
-        state: started
+        state: restarted
         enabled: yes
+      when: ansible_os_family == "RedHat"

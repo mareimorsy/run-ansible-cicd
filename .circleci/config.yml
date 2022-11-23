@@ -8,18 +8,19 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["54:03:09:2e:fd:b3:04:d1:99:84:99:a1:fd:4a:41:06", "14:8c:d4:74:fa:ba:23:36:07:f3:8a:a2:f1:9e:0f:4f"]
+          fingerprints: ["41:3c:ed:36:11:f5:13:b0:a2:e9:3b:47:3c:e6:cd:20"]
       - run:
           name: Install dependencies
           command: |
-            apk add gzip openssh-client
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: .
-      - run:
-          name: Install dependencies
-          command: |
-            cat inventory.txt
+            apk add gzip openssh-client ansible
+            ansible-playbook -i inventory.txt main.yml
+      # - attach_workspace:
+      #     # Must be absolute path or relative path from working_directory
+      #     at: .
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       cat inventory.txt
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -28,37 +29,37 @@ jobs:
             # aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             # ansible-playbook -i inventory.txt main.yml
 
-  provsion-infrastructure:
-    docker:
-      - image: amazon/aws-cli
+  # provsion-infrastructure:
+  #   docker:
+  #     - image: amazon/aws-cli
 
-    steps:
-      - checkout
-      # - run:
-      #     name: Configure server
-      #     command: |
-      #       aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
-      - run:
-          name: Configure server
-          command: |
-            yum install -y tar gzip
-            echo "[web]" > inventory.txt
-            echo "hello" >> inventory.txt
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
-          root: .
-          # Must be relative path from root
-          paths:
-            - inventory.txt
+  #   steps:
+  #     - checkout
+  #     # - run:
+  #     #     name: Configure server
+  #     #     command: |
+  #     #       aws cloudformation deploy --template-file ec2.yml --stack-name web --region us-east-1
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           yum install -y tar gzip
+  #           echo "[web]" > inventory.txt
+  #           echo "hello" >> inventory.txt
+  #     - persist_to_workspace:
+  #         # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+  #         # taken to be the root directory of the workspace.
+  #         root: .
+  #         # Must be relative path from root
+  #         paths:
+  #           - inventory.txt
 
 workflows:
   welcome:
     jobs:
-      - provsion-infrastructure
-      - server-configuration:
-          requires: 
-            - provsion-infrastructure
+      # - provsion-infrastructure
+      - server-configuration
+          # requires: 
+          #   - provsion-infrastructure
       # - anotherjob:
       #     requires: 
       #       - previousjob
